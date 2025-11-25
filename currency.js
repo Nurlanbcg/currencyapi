@@ -1,23 +1,25 @@
 export default {
   async fetch(request, env, ctx) {
     const cache = caches.default;
-    const cacheKey = new Request("https://azn-to-usd-cache");
+    const cacheKey = new Request("https://azn-usd-bidirectional");
 
-    // Try Cache first
+    // Try using cache
     let response = await cache.match(cacheKey);
     if (response) {
       return response;
     }
 
-    // Fetch latest rate
+    // Fetch the latest rates
     const api = await fetch("https://open.er-api.com/v6/latest/AZN");
     const data = await api.json();
 
-    const usdRate = data.rates?.USD;
+    const usdRate = data.rates?.USD;      // 1 AZN → USD
+    const aznFromUsd = 1 / usdRate;       // 1 USD → AZN
 
     response = new Response(
       JSON.stringify({
         azn_to_usd: usdRate,
+        usd_to_azn: aznFromUsd,
         updated_at: data.time_last_update_utc,
       }),
       {
