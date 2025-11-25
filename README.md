@@ -1,4 +1,4 @@
-📘 AZN ⇄ USD Exchange Rate API (Free, Serverless)
+📘Exchange Rate API (Free, Serverless)
 
 A free, serverless, and fast API built using Cloudflare Workers that provides bidirectional currency conversion between:
 
